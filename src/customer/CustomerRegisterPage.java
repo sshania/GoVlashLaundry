@@ -10,18 +10,19 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import main.PageManager;
-
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class CustomerRegisterPage {
 
-    private Scene scene;
+	private Scene scene;
     private BorderPane mainLayout;
     private GridPane gridLayout;
 
     private Label title;
     private Label lblUsername, lblEmail, lblPassword, lblConfirm, lblGender, lblDob, lblMsg;
-    private TextField tfUsername, tfEmail, tfDob;
+    private TextField tfUsername, tfEmail;
+    private DatePicker dpDob;
     private PasswordField pfPassword, pfConfirm;
     private ComboBox<String> cbGender;
     private Button btnRegister, btnBack;
@@ -51,11 +52,11 @@ public class CustomerRegisterPage {
         gridLayout.add(cbGender, 1, 4);
 
         gridLayout.add(lblDob, 0, 5);
-        gridLayout.add(tfDob, 1, 5);
+        gridLayout.add(dpDob, 1, 5);
 
         gridLayout.add(btnRegister, 1, 6);
         gridLayout.add(lblMsg, 1, 7);
-//        gridLayout.add(btnBack, 0, 6);
+        gridLayout.add(btnBack, 0, 6);
 
         scene = new Scene(mainLayout, 500, 400);
 
@@ -66,14 +67,40 @@ public class CustomerRegisterPage {
             String password = pfPassword.getText();
             String confirm = pfConfirm.getText();
             String gender = cbGender.getValue();
-            String dobStr = tfDob.getText();
+            
+            LocalDate localDate = dpDob.getValue();
+            
+            if (localDate == null) {
+                lblMsg.setText("Date of Birth cannot be empty");
+                lblMsg.setStyle("-fx-text-fill: red;");
+                return;
+            }
+            
+            
 
+            Date dob = Date.valueOf(localDate); // format YYYY-MM-DD
+            String result = uc.register(username, email, password, confirm, gender, dob);
             try {
-                Date dob = Date.valueOf(dobStr); // format YYYY-MM-DD
-                String result = uc.register(username, email, password, confirm, gender, dob);
-                if (result.equals(" ")) {
+                if (result.equals("OK")) {
                     lblMsg.setText("Registration successful!");
                     lblMsg.setStyle("-fx-text-fill: green;");
+                    
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Registration Success");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Registration successful! You can now login.");
+                    alert.showAndWait(); // user perlu klik OK
+                    
+                    tfUsername.clear();
+                    tfEmail.clear();
+                    pfPassword.clear();
+                    pfConfirm.clear();
+                    dpDob.setValue(null); 
+                    cbGender.setValue(null);
+                    
+                    // setelah regis pindah ke halaman mainpage 
+                    PageManager.setScene(new customer.CustomerMainPage().getScene());
+                    
                 } else {
                     lblMsg.setText(result);
                     lblMsg.setStyle("-fx-text-fill: red;");
@@ -108,12 +135,14 @@ public class CustomerRegisterPage {
         lblPassword = new Label("Password");
         lblConfirm = new Label("Confirm Password");
         lblGender = new Label("Gender");
-        lblDob = new Label("Date of Birth (YYYY-MM-DD)");
+        lblDob = new Label("Date of Birth");
         lblMsg = new Label();
 
         tfUsername = new TextField();
         tfEmail = new TextField();
-        tfDob = new TextField();
+        
+        dpDob = new DatePicker();
+        dpDob.setPromptText("Select Date");
 
         pfPassword = new PasswordField();
         pfConfirm = new PasswordField();
@@ -123,5 +152,8 @@ public class CustomerRegisterPage {
 
         btnRegister = new Button("Register");
         btnBack = new Button("Back");
+        
+        //Action button
+        btnBack.setOnAction(e -> PageManager.returnPage());
     }
 }
