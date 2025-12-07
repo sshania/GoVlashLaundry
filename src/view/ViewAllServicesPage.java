@@ -72,7 +72,7 @@ public class ViewAllServicesPage {
 
         layout.getChildren().addAll(title, table, createBackButton());
 
-        scene = new Scene(layout, 500, 500);
+        scene = new Scene(layout, 550, 450);
     }
 
     private Button createBackButton() {

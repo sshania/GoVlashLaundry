@@ -1,5 +1,6 @@
 package employee;
 
+import admin.AdminMainPage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.PageManager;
+import view.MainPage;
 import view.ServiceView;
 
 public class EmployeeMainPage {
@@ -29,12 +31,12 @@ public class EmployeeMainPage {
         Button btnAddEmployee = new Button("Add Employee");
         Button btnViewEmployee = new Button("View Employees");
         Button btnViewServices = new Button("View Services");
-        Button btnExit = new Button("Exit");
+        Button btnBack = new Button("Back");
 
         styleBtn(btnAddEmployee);
         styleBtn(btnViewEmployee);
         styleBtn(btnViewServices);
-        styleBtn(btnExit);
+        styleBtn(btnBack);
 
         btnAddEmployee.setOnAction(e -> 
             PageManager.setScene(new AddEmployeeFormPage().getScene())
@@ -48,10 +50,12 @@ public class EmployeeMainPage {
             PageManager.setScene(new ServiceView().getScene())
         );
 
-        btnExit.setOnAction(e -> System.exit(0));
+        btnBack.setOnAction(e -> 
+        	PageManager.setScene(new AdminMainPage().getScene())
+        );
 
 
-        VBox menu = new VBox(15, btnAddEmployee, btnViewEmployee, btnViewServices, btnExit);
+        VBox menu = new VBox(15, btnAddEmployee, btnViewEmployee, btnViewServices, btnBack);
         menu.setAlignment(Pos.CENTER);
 
         root.getChildren().addAll(title, menu);

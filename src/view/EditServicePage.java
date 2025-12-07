@@ -41,7 +41,7 @@ public class EditServicePage {
         Button backBtn = new Button("Back");
 
         submitBtn.setOnAction(e -> handleEditService());
-        backBtn.setOnAction(e -> PageManager.setScene(new ServiceView().getScene()));
+        backBtn.setOnAction(e -> PageManager.setScene(new Menu().getScene()));
 
         VBox layout = new VBox(10, title, nameField, descField, priceField, durationField, submitBtn, backBtn);
         layout.setPadding(new Insets(20));

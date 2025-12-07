@@ -78,7 +78,7 @@ public class CustomerRegisterPage {
             
             
 
-            Date dob = Date.valueOf(localDate); // format YYYY-MM-DD
+            Date dob = Date.valueOf(localDate);
             String result = uc.register(username, email, password, confirm, gender, dob);
             try {
                 if (result.equals("OK")) {
@@ -89,7 +89,7 @@ public class CustomerRegisterPage {
                     alert.setTitle("Registration Success");
                     alert.setHeaderText(null);
                     alert.setContentText("Registration successful! You can now login.");
-                    alert.showAndWait(); // user perlu klik OK
+                    alert.showAndWait(); 
                     
                     tfUsername.clear();
                     tfEmail.clear();
@@ -98,8 +98,7 @@ public class CustomerRegisterPage {
                     dpDob.setValue(null); 
                     cbGender.setValue(null);
                     
-                    // setelah regis pindah ke halaman mainpage 
-                    PageManager.setScene(new customer.CustomerMainPage().getScene());
+                    PageManager.setScene(new view.LoginPage().getScene());
                     
                 } else {
                     lblMsg.setText(result);

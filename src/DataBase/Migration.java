@@ -31,6 +31,10 @@ public class Migration {
                 + ") ENGINE=InnoDB;";
 
             stmt.executeUpdate(usersTable);
+            
+            String fixAdmin = "INSERT INTO users (username, email, password, gender, dob, role) " +
+                    "VALUES ('FixAdmin', 'admin@govlash.com', 'admin123', 'Male', '1990-01-01', 'Admin')";
+ stmt.executeUpdate(fixAdmin);
 
             // SERVICES
             String servicesTable = ""
