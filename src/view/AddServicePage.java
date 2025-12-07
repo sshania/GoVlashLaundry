@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -31,13 +32,11 @@ public class AddServicePage {
         Label title = new Label("Add New Service");
         title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        //GridPane untuk form
         GridPane form = new GridPane();
         form.setVgap(30);
         form.setHgap(10);
         form.setPadding(new Insets(20));
 
-        //Labels & TextFields
         Label nameLbl = new Label("Service Name:");
         nameField = new TextField();
         nameField.setPromptText("Service Name");
@@ -54,7 +53,6 @@ public class AddServicePage {
         durationField = new TextField();
         durationField.setPromptText("Duration");
 
-        //Tambahkan ke grid: column 0 = label, column 1 = field
         form.add(nameLbl, 0, 0);
         form.add(nameField, 1, 0);
 
@@ -76,7 +74,6 @@ public class AddServicePage {
         HBox buttonBox = new HBox(15, submitBtn, backBtn);
         buttonBox.setAlignment(Pos.CENTER);
 
-        //Layout utama
         VBox layout = new VBox(20, title, form, buttonBox);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setPadding(new Insets(20));
@@ -146,7 +143,7 @@ public class AddServicePage {
         showSuccess("Service added successfully!");
 
         //Balik ke table
-        PageManager.setScene(new SuccessPage("Service added successfully!", new Menu().getScene()).getScene());
+        PageManager.setScene(new Menu().getScene());
     }
 
     //PopUp

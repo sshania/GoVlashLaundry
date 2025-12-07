@@ -32,7 +32,7 @@ public class DeleteServicePage {
 
     private void initialize() {
         root = new BorderPane();
-        scene = new Scene(root, 600, 450);
+        scene = new Scene(root, 550, 450);
 
         table = new TableView<>();
 
@@ -58,7 +58,7 @@ public class DeleteServicePage {
         Button backBtn = new Button("Back");
 
         deleteBtn.setOnAction(e -> handleDelete());
-        backBtn.setOnAction(e -> PageManager.setScene(new ServiceView().getScene()));
+        backBtn.setOnAction(e -> PageManager.setScene(new Menu().getScene()));
 
         HBox buttonBox = new HBox(10, deleteBtn, backBtn);
         buttonBox.setPadding(new Insets(10));

@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import DataBase.DBConnection;
 import model.User;
@@ -67,6 +69,30 @@ public class EmployeeController {
         return "OK";
     }
 
+    public List<User> getAllLaundryStaff() {
+        List<User> list = new ArrayList<>();
+
+        String query = "SELECT * FROM users WHERE role = 'Laundry Staff'";
+
+        try {
+            ResultSet rs = DBConnection.getInstance().executeQuery(query);
+            while (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("username"));
+                u.setEmail(rs.getString("email"));
+                u.setGender(rs.getString("gender"));
+                u.setDob(rs.getDate("dob"));
+                u.setRole(rs.getString("role"));
+                // password left empty on purpose, like in mapToUser
+                list.add(u);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 
     public static boolean insert(String name, String email, String pass, String gender, Date dob, String role) {

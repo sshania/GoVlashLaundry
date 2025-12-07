@@ -47,7 +47,7 @@ public class ServiceController {
             return;
         }
 
-        String query = "INSERT INTO services (serviceName, serviceDescription, servicePrice, serviceDuration) "
+        String query = "INSERT INTO services (name, description, price, duration_days) "
                      + "VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement ps = DBConnection.getInstance().prepareStatement(query);
@@ -63,13 +63,13 @@ public class ServiceController {
     }
     
     //Delete service
-    public void deleteService(int serviceID) {
+    public void deleteService(int id) {
 
-        String query = "DELETE FROM services WHERE serviceID = ?";
+        String query = "DELETE FROM services WHERE id = ?";
 
         try {
             PreparedStatement ps = DBConnection.getInstance().prepareStatement(query);
-            ps.setInt(1, serviceID);
+            ps.setInt(1, id);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class ServiceController {
     }
     
     //Edit service
-    public void editService(int serviceID, String name, String description, double price, int duration) {
+    public void editService(int id, String name, String description, double price, int duration) {
 
         String validate = validateEditService(name, description, price, duration);
         if (!validate.equals("OK")) {
@@ -86,8 +86,8 @@ public class ServiceController {
             return;
         }
 
-        String query = "UPDATE services SET serviceName=?, serviceDescription=?, servicePrice=?, serviceDuration=? "
-                     + "WHERE serviceID=?";
+        String query = "UPDATE services SET name=?, description=?, price=?, duration_days=? "
+                     + "WHERE id=?";
 
         try {
             PreparedStatement ps = DBConnection.getInstance().prepareStatement(query);
@@ -96,7 +96,7 @@ public class ServiceController {
             ps.setString(2, description);
             ps.setDouble(3, price);
             ps.setInt(4, duration);
-            ps.setInt(5, serviceID);
+            ps.setInt(5, id);
 
             ps.executeUpdate();
         } catch (Exception e) {
@@ -116,11 +116,11 @@ public class ServiceController {
 
             while (rs.next()) {
                 list.add(new Service(
-                        rs.getInt("serviceID"),
-                        rs.getString("serviceName"),
-                        rs.getString("serviceDescription"),
-                        rs.getDouble("servicePrice"),
-                        rs.getInt("serviceDuration")
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getDouble("price"),
+                        rs.getInt("duration_days")
                 ));
             }
 

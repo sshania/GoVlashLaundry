@@ -1,5 +1,7 @@
 package view;
 
+import admin.AdminMainPage;
+import customer.CustomerViewService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,13 +36,13 @@ public class Menu {
         editBtn.setOnAction(e -> PageManager.setScene(new ServiceView().getScene()));
         deleteBtn.setOnAction(e -> PageManager.setScene(new DeleteServicePage().getScene()));
         viewAllBtn.setOnAction(e -> PageManager.setScene(new ViewAllServicesPage().getScene()));
-        backBtn.setOnAction(e -> PageManager.setScene(new MainPage().getScene()));
+        backBtn.setOnAction(e -> PageManager.setScene(new AdminMainPage().getScene()));
 
         VBox box = new VBox(20, title, addBtn, editBtn, deleteBtn, viewAllBtn,backBtn);
         box.setAlignment(Pos.CENTER);
         root.setCenter(box);
 
-        scene = new Scene(root, 600, 450);
+        scene = new Scene(root, 500, 450);
     }
 
     public Scene getScene() {
