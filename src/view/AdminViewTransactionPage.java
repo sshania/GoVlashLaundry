@@ -1,19 +1,15 @@
 package view;
 
+import controller.NotificationController;
 import controller.TransactionController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import main.PageManager;
 import model.Transaction;
 
@@ -23,6 +19,7 @@ public class AdminViewTransactionPage {
 
     private Scene scene;
     private final TransactionController tc = new TransactionController();
+    private final NotificationController nc = new NotificationController(); 
     private TableView<Transaction> table;
     private ComboBox<String> cbStatus;
 
@@ -34,7 +31,6 @@ public class AdminViewTransactionPage {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(20));
 
-  
         Label title = new Label("All Transactions");
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
@@ -52,9 +48,9 @@ public class AdminViewTransactionPage {
         topBox.setPadding(new Insets(0, 0, 20, 0));
         root.setTop(topBox);
 
-        
         table = new TableView<>();
-
+        
+        //Tabel informasi transaksi customer
         TableColumn<Transaction, String> colID = new TableColumn<>("Transaction ID");
         colID.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
 
@@ -79,10 +75,64 @@ public class AdminViewTransactionPage {
             )
         );
 
-        table.getColumns().addAll(colID, colCustomer, colService, colWeight, colStatus, colDate);
+        //Kolom notifikasi dengan tombol "Send Notification"
+        TableColumn<Transaction, Void> colAction = new TableColumn<>("Action");
+        colAction.setPrefWidth(160);
+        colAction.setCellFactory(param -> new TableCell<>() {
+            
+            private final Button btn = new Button("Send Notification");
+
+            {
+            	
+                btn.setStyle("-fx-background-color: #FFA500; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
+                
+                btn.setOnAction(event -> {
+
+                	Transaction t = getTableView().getItems().get(getIndex());
+                    
+                    String customerId = t.getCustomerID(); 
+                    
+                    boolean success = nc.sendNotification(customerId);
+                    
+                    if (success) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Success");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Notification sent successfully to Customer ID: " + customerId);
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Failed to send notification.");
+                        alert.showAndWait();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Transaction t = getTableView().getItems().get(getIndex());
+                    
+                    //Tombol hanya muncul jika status "Finished"
+                    if ("Finished".equalsIgnoreCase(t.getTransactionStatus())) {
+                        setGraphic(btn);
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+
+        table.getColumns().addAll(colID, colCustomer, colService, colWeight, colStatus, colDate, colAction);
 
         root.setCenter(table);
-
+        
+        //Redirect ke main page
         Button btnBack = new Button("Back");
         btnBack.setOnAction(e -> PageManager.setScene(new admin.AdminMainPage().getScene()));
 
@@ -93,7 +143,7 @@ public class AdminViewTransactionPage {
 
         loadData();
 
-        scene = new Scene(root, 550, 450);
+        scene = new Scene(root, 750, 450);
     }
 
     private void loadData() {

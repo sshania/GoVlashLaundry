@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 
 public class Notification {
 	private String notificationID;
-	private String receipientID;
+	private String recipientID;
 	private String notificationMessage;
 	private LocalDateTime createdAt;
-	private String isRead;
+	private boolean isRead;
 	
-	public Notification(String notificationID, String receipientID, String notificationMessage, LocalDateTime createdAt,
-			String isRead) {
+	public Notification(String notificationID, String recipientID, String notificationMessage, LocalDateTime createdAt,
+			boolean isRead) {
 		super();
 		this.notificationID = notificationID;
-		this.receipientID = receipientID;
+		this.recipientID = recipientID;
 		this.notificationMessage = notificationMessage;
 		this.createdAt = createdAt;
 		this.isRead = isRead;
@@ -25,11 +25,11 @@ public class Notification {
 	public void setNotificationID(String notificationID) {
 		this.notificationID = notificationID;
 	}
-	public String getReceipientID() {
-		return receipientID;
+	public String getRecipientID() {
+		return recipientID;
 	}
-	public void setReceipientID(String receipientID) {
-		this.receipientID = receipientID;
+	public void setRecipientID(String recipientID) {
+		this.recipientID = recipientID;
 	}
 	public String getNotificationMessage() {
 		return notificationMessage;
@@ -43,12 +43,10 @@ public class Notification {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	public String getIsRead() {
+	public boolean getIsRead() {
 		return isRead;
 	}
-	public void setIsRead(String isRead) {
+	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
 	}
-	
-	
 }

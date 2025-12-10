@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.PageManager;
+import main.Session;
 import view.MainPage;
 import view.TransactionHistoryPage;
 
@@ -26,7 +27,7 @@ public class CustomerMainPage {
         // Tombol Navigasi
         Button btnTransaction = new Button("Create Transaction");
         Button btnTHistory = new Button("Transaction History");
-        Button btnNotif = new Button("notification(blm ada)");
+        Button btnNotif = new Button("Notification");
         Button logoutBack = new Button("Logout");
         
         styleBtn(btnTransaction);
@@ -37,8 +38,17 @@ public class CustomerMainPage {
         // buttons redirect
         btnTransaction.setOnAction(e -> PageManager.setScene(new CustomerViewService().getScene()));
         btnTHistory.setOnAction(e -> PageManager.setScene(new TransactionHistoryPage().getScene()));
-//        btnNotif.setOnAction(e -> PageManager.setScene(new ().getScene()));
-        logoutBack.setOnAction(e -> PageManager.setScene(new MainPage().getScene()));
+       
+        btnNotif.setOnAction(e -> {
+            int userIdInt = Session.getUser().getId();
+            String userIdStr = String.valueOf(userIdInt);
+            PageManager.setScene(new CustomerNotification().getScene(userIdStr));
+        });
+        
+        logoutBack.setOnAction(e -> {
+            Session.logout(); // Jangan lupa logout session
+            PageManager.setScene(new MainPage().getScene());
+        });
 
         root.getChildren().addAll(title, btnTransaction, btnTHistory, btnNotif, logoutBack);
         return new Scene(root, 600, 450);

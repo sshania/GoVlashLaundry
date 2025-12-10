@@ -73,9 +73,10 @@ public class Migration {
 
             stmt.executeUpdate(transactionsTable);
 
+            //NOTIFICATION
             String notificationsTable = ""
                 + "CREATE TABLE notifications ("
-                + "  id INT PRIMARY KEY AUTO_INCREMENT,"
+                + "  id VARCHAR(50) PRIMARY KEY,"
                 + "  recipient_id INT NOT NULL,"
                 + "  message VARCHAR(500) NOT NULL,"
                 + "  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,"
