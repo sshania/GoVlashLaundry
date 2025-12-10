@@ -90,9 +90,15 @@ public class AdminViewTransactionPage {
 
                 	Transaction t = getTableView().getItems().get(getIndex());
                     
-                    String customerId = t.getCustomerID(); 
+                    String customerId = t.getCustomerID();
+                    String transId = t.getTransactionID();
+                    String serviceId = t.getServiceID();
                     
-                    boolean success = nc.sendNotification(customerId);
+                    String customMsg = "Your order (Service ID: " + serviceId + ") is finished and ready for pickup. Thank you for choosing our service!";
+                    
+//                    boolean success = nc.sendNotification(customerId);
+                    boolean success = nc.sendNotification(customerId, customMsg);
+
                     
                     if (success) {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
