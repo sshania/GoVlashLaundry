@@ -31,10 +31,12 @@ public class ViewEmployeePage {
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
 
         try {
-            Connection con = DBConnection.getInstance().getConnection();
-            ResultSet rs = con.createStatement().executeQuery(
-                "SELECT * FROM users WHERE role IN ('Admin', 'Laundry Staff', 'Receptionist')"
-            );
+        	Connection con = DBConnection.getInstance().getConnection();
+        	ResultSet rs = con.createStatement().executeQuery(
+                    "SELECT id, username, email, gender, dob, role, created_at " +
+                	    "FROM users " +
+                	    "WHERE role IN ('Admin', 'Laundry Staff', 'Receptionist')"
+                );
 
             // Jika tidak ada data
             if (!rs.isBeforeFirst()) {
